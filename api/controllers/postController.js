@@ -1,4 +1,4 @@
-const { Posts } = require('../models');
+const { Posts, Users } = require('../models');
 
 class postController {
     constructor ( loggerService ) {
@@ -42,6 +42,10 @@ class postController {
     create = async (req, res) => {
         try {
             const post = await Posts.create(req.body);
+            const user = await Users.findById(req.body.user);
+            user.posts.push(post);
+            await user.save();
+            console.log(user);
             res.status(200).send(post);
             this.loggerService.log(`Data: ${post}`);
         } catch (error) {
