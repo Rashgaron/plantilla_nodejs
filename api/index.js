@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const { Hello, Bye, User, Post } = require('./routes');
+const { Hello, Bye, User, Post, Auth } = require('./routes');
 const port = 3000;
 
 mongoose
@@ -18,6 +18,7 @@ mongoose
         app.use('/api/bye', Bye);
         app.use('/api/users', User);
         app.use('/api/posts', Post);
+        app.use('/api/auth', Auth);
 
         app.listen(port, () => {
             console.log("Server is running on port: " + port);

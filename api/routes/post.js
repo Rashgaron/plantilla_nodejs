@@ -4,7 +4,7 @@ const FactoryController = require('../factory/factoryController');
 
 const postController = FactoryController.createPostController();
 
-router.get('/', postController.getAllFromUser);
+router.get('/user', postController.getAllFromUser);
 router.post('/', postController.create);
 router.get('/', postController.getAll);
 

@@ -1,4 +1,4 @@
-const { Post } = require('../models');
+const { Posts } = require('../models');
 
 class postController {
     constructor ( loggerService ) {
@@ -7,7 +7,7 @@ class postController {
 
     getAll = async (req, res) => {
         try {
-            const posts = await Post.find();
+            const posts = await Posts.find();
             res.status(200).send(posts);
             this.loggerService.log(`Data: ${posts}`);   
         } catch (error) {
@@ -18,7 +18,7 @@ class postController {
 
     getAllFromUser = async (req, res) => {
         try {
-            const posts = await Post.find({ user: req.query.userId });
+            const posts = await Posts.find({ user: req.query.userId });
             res.status(200).send(posts);
             this.loggerService.log(`Data: ${posts}`);           
         } catch (error) {
@@ -29,7 +29,7 @@ class postController {
 
     getPost = async (req, res) => {
         try {
-            const post = await Post.findById(req.params.id);
+            const post = await Posts.findById(req.params.id);
             res.status(200).send(posts);
             this.loggerService.log(`Data: ${post}`);           
         } catch (error) {
@@ -41,7 +41,7 @@ class postController {
 
     create = async (req, res) => {
         try {
-            const post = await Post.create(req.body);
+            const post = await Posts.create(req.body);
             res.status(200).send(post);
             this.loggerService.log(`Data: ${post}`);
         } catch (error) {

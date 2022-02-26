@@ -16,7 +16,9 @@ const User = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId, 
             ref: 'Post'
         }
-    ]
+    ],
+    password: String,
+    salt: String,
 })
 
 module.exports = mongoose.model('User', User);

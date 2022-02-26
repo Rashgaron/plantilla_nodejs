@@ -1,9 +1,8 @@
 const LoggerService = require('../services/loggerService');
 const { HelloController, UserController, PostController } = require('../controllers');
 
-class FactoryController {
+class factoryController {
     
-
     static createHelloController = () => {
         const loggerService = new LoggerService();
         return new HelloController("texto mostrado por el service", loggerService); 
@@ -20,4 +19,4 @@ class FactoryController {
     }
 }
 
-module.exports = FactoryController;
+module.exports = factoryController;
