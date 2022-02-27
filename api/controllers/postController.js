@@ -43,8 +43,7 @@ class postController {
         try {
             const post = await Posts.create(req.body);
             const user = await Users.findById(req.body.user);
-            user.posts.push(post);
-            await user.save();
+            await user.addPost(post);
             console.log(user);
             res.status(200).send(post);
             this.loggerService.log(`Data: ${post}`);

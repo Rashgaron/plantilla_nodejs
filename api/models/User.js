@@ -21,4 +21,9 @@ const User = new mongoose.Schema({
     salt: String,
 })
 
+User.methods.addPost = function(post) {
+    this.posts.push(post);
+    return this.save();
+}
+
 module.exports = mongoose.model('User', User);
