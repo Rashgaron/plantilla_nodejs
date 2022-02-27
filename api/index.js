@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const { Hello, Bye, User, Post, Auth } = require('./routes');
-const port = 3000;
+const port = 4200;
 
 mongoose
     .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })

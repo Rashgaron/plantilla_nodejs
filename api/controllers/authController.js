@@ -12,7 +12,7 @@ class authController {
                 Users.findOne({ email }).exec()
                     .then(user => {
                         if(user){
-                            return res.send('user already exists');
+                            return res.status(500).send({Error: 'User already exists'});
                         }
                         Users.create({ 
                             email, 
@@ -20,7 +20,7 @@ class authController {
                             password: encryptedPassword, 
                             salt: newSalt 
                         })
-                        return res.send(200);
+                        return res.status(200).send({message: 'User created'});
                     })
             })
         })
