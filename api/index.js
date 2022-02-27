@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const { Hello, Bye, User, Post, Auth } = require('./routes');
-const port = 4200;
+const port = process.env.PORT || 8080;
 
 mongoose
     .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,6 +19,7 @@ mongoose
         app.use('/api/users', User);
         app.use('/api/posts', Post);
         app.use('/api/auth', Auth);
+        app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
     }).catch((error) => {
         console.log(error);
