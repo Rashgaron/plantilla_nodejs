@@ -20,10 +20,6 @@ mongoose
         app.use('/api/posts', Post);
         app.use('/api/auth', Auth);
 
-        app.listen(port, () => {
-            console.log("Server is running on port: " + port);
-        })
-
     }).catch((error) => {
         console.log(error);
     })
