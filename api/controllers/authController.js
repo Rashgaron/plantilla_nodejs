@@ -40,12 +40,12 @@ class authController {
             Users.findOne({ email }).exec()
                 .then(user => {
                     if(!user){
-                        return res.send('Error with password or email');
+                        return res.status(401).send('Error with password or email');
                     }
                     crypto.pbkdf2(password, user.salt, 10000, 64, 'sha1', (err, key) => {
                         const encryptedPassword = key.toString('base64');
                         if(encryptedPassword !== user.password) {
-                            return res.status(400).send('Error with password or email');
+                            return res.status(401).send('Error with password or email');
                         }
                         const token = signToken(user._id);
                         return res.send({ token });
