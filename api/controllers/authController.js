@@ -4,44 +4,58 @@ const { Users } = require('../models');
 
 class authController {
     register = (req, res) => {
-        const { email, password, name } = req.body;
-        crypto.randomBytes(16, (err, salt) => {
-            const newSalt = salt.toString('base64');
-            crypto.pbkdf2(password, newSalt, 10000, 64, 'sha1', (err, key) => {
-                const encryptedPassword = key.toString('base64');
-                Users.findOne({ email }).exec()
-                    .then(user => {
-                        if(user){
-                            return res.status(500).send({Error: 'User already exists'});
-                        }
-                        Users.create({ 
-                            email, 
-                            name,
-                            password: encryptedPassword, 
-                            salt: newSalt 
+        try {
+            var { email, password, name } = req.body;
+            email = email.ToLower();
+            crypto.randomBytes(16, (err, salt) => {
+                const newSalt = salt.toString('base64');
+                crypto.pbkdf2(password, newSalt, 10000, 64, 'sha1', (err, key) => {
+                    const encryptedPassword = key.toString('base64');
+                    Users.findOne({ email }).exec()
+                        .then(user => {
+                            if(user){
+                                return res.status(500).send({Error: 'User already exists'});
+                            }
+                            const newUser = Users.create({ 
+                                email, 
+                                name,
+                                password: encryptedPassword, 
+                                salt: newSalt 
+                            })
+                            console.log("hello");
+                            const token = signToken(newUser._id);
+                            return res.status(200).send({ token });
                         })
-                        return res.status(200).send({message: 'User created'});
-                    })
-            })
-        })
+                })
+            })   
+        } catch (error) {
+          return res.status(500).send({msg: error})  
+        }
+        
     }
 
     login = (req, res) => {
-        const { email, password } = req.body;
-        Users.findOne({ email }).exec()
-            .then(user => {
-                if(!user){
-                    return res.send('Error with password or email');
-                }
-                crypto.pbkdf2(password, user.salt, 10000, 64, 'sha1', (err, key) => {
-                    const encryptedPassword = key.toString('base64');
-                    if(encryptedPassword !== user.password) {
+        try {
+            var { email, password } = req.body;
+            email = email.ToLower();
+            Users.findOne({ email }).exec()
+                .then(user => {
+                    if(!user){
                         return res.send('Error with password or email');
                     }
-                    const token = signToken(user._id);
-                    return res.send({ token });
-                })
-            })
+                    crypto.pbkdf2(password, user.salt, 10000, 64, 'sha1', (err, key) => {
+                        const encryptedPassword = key.toString('base64');
+                        if(encryptedPassword !== user.password) {
+                            return res.send('Error with password or email');
+                        }
+                        const token = signToken(user._id);
+                        return res.send({ token });
+                    })
+                })   
+        } catch (error) {
+           return res.status(500).send({msg: error}) 
+        }
+        
     }
 
 }
