@@ -15,8 +15,12 @@ class userController {
         res.status(200).send(user);
     }
     create = async (req, res) => {
-        const user = await Users.create(req.body); 
-        res.status(200).send(user);
+        try {
+            const user = await Users.create(req.body); 
+            res.status(201).send(user);           
+        } catch (error) {
+           res.status(500).send(error); 
+        }
     }
     update = async (req, res) => {
         const user = await Users.findByIdAndUpdate(req.params.id, req.body);

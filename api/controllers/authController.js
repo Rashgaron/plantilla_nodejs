@@ -6,7 +6,7 @@ class authController {
     register = (req, res) => {
         try {
             var { email, password, name } = req.body;
-            email = email.toLowerCase();
+            email = email.toLowerCase().trim();
             crypto.randomBytes(16, (err, salt) => {
                 const newSalt = salt.toString('base64');
                 crypto.pbkdf2(password, newSalt, 10000, 64, 'sha1', (err, key) => {
@@ -36,7 +36,7 @@ class authController {
     login = (req, res) => {
         try {
             var { email, password } = req.body;
-            email = email.toLowerCase();
+            email = email.toLowerCase().trim();
             Users.findOne({ email }).exec()
                 .then(user => {
                     if(!user){
